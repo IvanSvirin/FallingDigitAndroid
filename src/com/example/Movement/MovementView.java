@@ -37,7 +37,6 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
     }
 
 
-
     void init() {
         xStartPos = bitmaps[1].getWidth() * 6;
         yStartPos = 0;
@@ -142,29 +141,35 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
         int sum;
         int beginBlock = 0;
         int endBlock = 0;
-        for (int i = currentDigit.x / 30; i > 0 ; i--) {
+        for (int i = currentDigit.x / 30; i > 0; i--) {
             sum = 0;
-            if (currentDigit.x / 30 < 11) {
-                for (int j = i; j < 12; j++) {
+            for (int j = i; j < 12; j++) {
+                if (field[j][currentDigit.y / 30] != 0) {
                     sum += field[j][currentDigit.y / 30];
                     if (sum == targetSum) {
                         beginBlock = i;
                         endBlock = j;
                         erase(beginBlock, endBlock);
+                        break;
                     }
+                } else {
+                    break;
                 }
             }
         }
-        for (int i = currentDigit.x / 30; i < 12 ; i++) {
+        for (int i = currentDigit.x / 30; i < 12; i++) {
             sum = 0;
-            if (currentDigit.x / 30 > 1) {
-                for (int j = i; j > 0; j--) {
+            for (int j = i; j > 0; j--) {
+                if (field[j][currentDigit.y / 30] != 0) {
                     sum += field[j][currentDigit.y / 30];
                     if (sum == targetSum) {
                         beginBlock = j;
                         endBlock = i;
                         erase(beginBlock, endBlock);
+                        break;
                     }
+                } else {
+                    break;
                 }
             }
         }
@@ -181,6 +186,7 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
             for (int i = 0; i < digits.size(); i++) {
                 if (digits.get(i).x / 30 >= beginBlock && digits.get(i).x / 30 <= endBlock && digits.get(i).y / 30 == currentDigit.y / 30) {
                     digits.remove(i);
+                    i--;
                 }
             }
             for (Digit digit : digits) {
