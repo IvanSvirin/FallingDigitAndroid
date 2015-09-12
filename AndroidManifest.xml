@@ -4,12 +4,15 @@
     <uses-sdk android:minSdkVersion="15"/>
     <application android:icon="@drawable/icon" android:label="Falling Digits">
         <activity android:name="MainActivity"
-                  android:label="Falling Digits">
+                  android:label="Falling Digits"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Game"></activity>
+        <activity android:name=".Game"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 </manifest>
