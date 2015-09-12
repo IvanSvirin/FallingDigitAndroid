@@ -63,7 +63,7 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
         }
         digitPaint.setColor(Color.BLACK);
         digitPaint.setTextSize(30);
-        canvas.drawText("Score", 400, 50, digitPaint);
+//        canvas.drawText("Score", 400, 50, digitPaint);
     }
 
     public void updatePhysics() {
