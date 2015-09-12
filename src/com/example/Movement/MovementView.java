@@ -43,7 +43,7 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
         currentDigit = new Digit(xStartPos, yStartPos);
         digits.add(currentDigit);
         digitPaint = new Paint();
-        yVel = 30;
+        yVel = bitmaps[1].getWidth();
         field = new int[13][13];
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 13; j++) {
@@ -62,15 +62,15 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
             canvas.drawBitmap(digit.bitmap, digit.x, digit.y, digitPaint);
         }
         digitPaint.setColor(Color.BLACK);
-        digitPaint.setTextSize(30);
+        digitPaint.setTextSize(bitmaps[1].getWidth());
 //        canvas.drawText("Score", 400, 50, digitPaint);
     }
 
     public void updatePhysics() {
-        if (field[currentDigit.x / 30][currentDigit.y / 30 + 1] == 0) {
+        if (field[currentDigit.x / bitmaps[1].getWidth()][currentDigit.y / bitmaps[1].getWidth() + 1] == 0) {
             moveDown(currentDigit);
         } else {
-            field[currentDigit.x / 30][currentDigit.y / 30] = currentDigit.value;
+            field[currentDigit.x / bitmaps[1].getWidth()][currentDigit.y / bitmaps[1].getWidth()] = currentDigit.value;
             checkSumAndErase();
             currentDigit = new Digit(xStartPos, yStartPos);
             digits.add(currentDigit);
@@ -108,12 +108,12 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
     }
 
     private void moveLeft() {
-        if (field[currentDigit.x / 30 - 1][currentDigit.y / 30] == 0) currentDigit.x -= 30;
+        if (field[currentDigit.x / bitmaps[1].getWidth() - 1][currentDigit.y / bitmaps[1].getWidth()] == 0) currentDigit.x -= bitmaps[1].getWidth();
     }
 
     private void moveRight() {
 
-        if (field[currentDigit.x / 30 + 1][currentDigit.y / 30] == 0) currentDigit.x += 30;
+        if (field[currentDigit.x / bitmaps[1].getWidth() + 1][currentDigit.y / bitmaps[1].getWidth()] == 0) currentDigit.x += bitmaps[1].getWidth();
     }
 
     private void moveDown(Digit digit) {
@@ -141,11 +141,11 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
         int sum;
         int beginBlock = 0;
         int endBlock = 0;
-        for (int i = currentDigit.x / 30; i > 0; i--) {
+        for (int i = currentDigit.x / bitmaps[1].getWidth(); i > 0; i--) {
             sum = 0;
             for (int j = i; j < 12; j++) {
-                if (field[j][currentDigit.y / 30] != 0) {
-                    sum += field[j][currentDigit.y / 30];
+                if (field[j][currentDigit.y / bitmaps[1].getWidth()] != 0) {
+                    sum += field[j][currentDigit.y / bitmaps[1].getWidth()];
                     if (sum == targetSum) {
                         beginBlock = i;
                         endBlock = j;
@@ -157,11 +157,11 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
                 }
             }
         }
-        for (int i = currentDigit.x / 30; i < 12; i++) {
+        for (int i = currentDigit.x / bitmaps[1].getWidth(); i < 12; i++) {
             sum = 0;
             for (int j = i; j > 0; j--) {
-                if (field[j][currentDigit.y / 30] != 0) {
-                    sum += field[j][currentDigit.y / 30];
+                if (field[j][currentDigit.y / bitmaps[1].getWidth()] != 0) {
+                    sum += field[j][currentDigit.y / bitmaps[1].getWidth()];
                     if (sum == targetSum) {
                         beginBlock = j;
                         endBlock = i;
@@ -178,19 +178,19 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
 
     void erase(int beginBlock, int endBlock) {
         if (beginBlock != 0 && endBlock != 0) {
-            for (int i = currentDigit.y / 30; i > 0; i--) {
+            for (int i = currentDigit.y / bitmaps[1].getWidth(); i > 0; i--) {
                 for (int j = beginBlock; j < endBlock + 1; j++) {
                     field[j][i] = field[j][i - 1];
                 }
             }
             for (int i = 0; i < digits.size(); i++) {
-                if (digits.get(i).x / 30 >= beginBlock && digits.get(i).x / 30 <= endBlock && digits.get(i).y / 30 == currentDigit.y / 30) {
+                if (digits.get(i).x / bitmaps[1].getWidth() >= beginBlock && digits.get(i).x / bitmaps[1].getWidth() <= endBlock && digits.get(i).y / bitmaps[1].getWidth() == currentDigit.y / bitmaps[1].getWidth()) {
                     digits.remove(i);
                     i--;
                 }
             }
             for (Digit digit : digits) {
-                if (digit.x / 30 >= beginBlock && digit.x / 30 <= endBlock && digit.y / 30 < currentDigit.y / 30) {
+                if (digit.x / bitmaps[1].getWidth() >= beginBlock && digit.x / bitmaps[1].getWidth() <= endBlock && digit.y / bitmaps[1].getWidth() < currentDigit.y / bitmaps[1].getWidth()) {
                     moveDown(digit);
                 }
             }
