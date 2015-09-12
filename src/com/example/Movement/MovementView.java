@@ -28,6 +28,7 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
     int firstX;
     int secondX;
     int targetSum = 10;
+    Integer score = 0;
 
     public MovementView(Context context) {
         super(context);
@@ -63,7 +64,8 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
         }
         digitPaint.setColor(Color.BLACK);
         digitPaint.setTextSize(bitmaps[1].getWidth());
-//        canvas.drawText("Score", 400, 50, digitPaint);
+        canvas.drawText("Score:", bitmaps[1].getWidth() * 6, bitmaps[1].getWidth() * 14, digitPaint);
+        canvas.drawText(score.toString(), bitmaps[1].getWidth() * 9, bitmaps[1].getWidth() * 14, digitPaint);
     }
 
     public void updatePhysics() {
@@ -194,6 +196,7 @@ public class MovementView extends SurfaceView implements SurfaceHolder.Callback 
                     moveDown(digit);
                 }
             }
+            score += 10;
         }
     }
 
